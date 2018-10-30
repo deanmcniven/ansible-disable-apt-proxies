@@ -1,5 +1,6 @@
 ---
 - name: Set apt.conf fact
+  become: true
   stat:
     path: /etc/apt/apt.conf
     register: stat_apt_conf
