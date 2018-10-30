@@ -1,0 +1,18 @@
+---
+- name: Add apt config to disable apt proxy
+  become: true
+  copy:
+    content: 'Acquire::http::Proxy "false";'
+    dest: /etc/apt/apt.conf.d/999-no-proxy
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Clear apt.conf file
+  become: true
+  lineinfile:
+    path: /etc/apt/apt.conf
+    regexp: '^[Aa]cquire::.*[Pp]roxy.*$'
+    state: absent
+  when: stat_apt_conf.stat.exists == True
+
